@@ -1,4 +1,4 @@
-module github.com/firecracker-microvm/firecracker-go-sdk
+module github.com/verloop/firecracker-go-sdk
 
 go 1.21
 

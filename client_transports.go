@@ -15,14 +15,15 @@ package firecracker
 
 import (
 	"context"
-	"github.com/go-openapi/runtime"
 	"net"
 	"net/http"
+
+	"github.com/go-openapi/runtime"
 
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/sirupsen/logrus"
 
-	"github.com/firecracker-microvm/firecracker-go-sdk/client"
+	"github.com/verloop/firecracker-go-sdk/client"
 )
 
 // NewUnixSocketTransport creates a new clientTransport configured at the specified Unix socketPath.

@@ -38,7 +38,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	models "github.com/firecracker-microvm/firecracker-go-sdk/client/models"
+	models "github.com/verloop/firecracker-go-sdk/client/models"
 )
 
 const (
@@ -75,6 +75,13 @@ const (
 	MMDSv1 = MMDSVersion("V1")
 	MMDSv2 = MMDSVersion("V2")
 )
+
+type UnikernelArgs struct {
+	KernelName             string
+	KernelNetworkInterface string
+	UserArgs               string
+	ExtraArgs              string
+}
 
 // Config is a collection of user-configurable VMM settings
 type Config struct {
@@ -113,6 +120,11 @@ type Config struct {
 	// KernelArgs defines the command-line arguments that should be passed to
 	// the kernel.
 	KernelArgs string
+
+	// Additional setup for loading unikernel
+	LoadUnikernel bool
+
+	UnikernelArgs UnikernelArgs
 
 	// Drives specifies BlockDevices that should be made available to the
 	// microVM.
@@ -498,16 +510,25 @@ func (m *Machine) setupNetwork(ctx context.Context) error {
 }
 
 func (m *Machine) setupKernelArgs(ctx context.Context) error {
-	kernelArgs := parseKernelArgs(m.Cfg.KernelArgs)
-
+	var ipBootParam string
 	// If any network interfaces have a static IP configured, we need to set the "ip=" boot param.
 	// Validation that we are not overriding an existing "ip=" setting happens in the network validation
 	if staticIPInterface := m.Cfg.NetworkInterfaces.staticIPInterface(); staticIPInterface != nil {
-		ipBootParam := staticIPInterface.StaticConfiguration.IPConfiguration.ipBootParam()
-		kernelArgs["ip"] = &ipBootParam
+		ipBootParam = staticIPInterface.StaticConfiguration.IPConfiguration.ipBootParam()
 	}
 
-	m.Cfg.KernelArgs = kernelArgs.String()
+	// NOTE:- this patch is made to support unikernel boot via Unikraft
+	// 1. we need to maintain the order of the kernel args as they are passed to the kernel
+	// 2. we need to add the "netdev.ip=" arg instead of "ip=" just before passing to the kernel
+	if m.Cfg.LoadUnikernel {
+		unikernelArgs := parseUnikernelArgs(m.Cfg.UnikernelArgs, ipBootParam)
+		m.Cfg.KernelArgs = unikernelArgs
+	} else {
+		kernelArgs := parseKernelArgs(m.Cfg.KernelArgs)
+		kernelArgs["ip"] = &ipBootParam
+		m.Cfg.KernelArgs = kernelArgs.String()
+	}
+
 	return nil
 }
 

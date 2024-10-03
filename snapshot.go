@@ -13,7 +13,7 @@
 
 package firecracker
 
-import "github.com/firecracker-microvm/firecracker-go-sdk/client/models"
+import "github.com/verloop/firecracker-go-sdk/client/models"
 
 type SnapshotConfig struct {
 	MemFilePath         string
