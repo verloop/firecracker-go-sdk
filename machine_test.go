@@ -41,10 +41,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/crypto/ssh"
 
-	models "github.com/firecracker-microvm/firecracker-go-sdk/client/models"
-	ops "github.com/firecracker-microvm/firecracker-go-sdk/client/operations"
-	"github.com/firecracker-microvm/firecracker-go-sdk/fctesting"
-	"github.com/firecracker-microvm/firecracker-go-sdk/internal"
+	models "github.com/verloop/firecracker-go-sdk/client/models"
+	ops "github.com/verloop/firecracker-go-sdk/client/operations"
+	"github.com/verloop/firecracker-go-sdk/fctesting"
+	"github.com/verloop/firecracker-go-sdk/internal"
 )
 
 const (
@@ -485,7 +485,7 @@ func TestLogAndMetrics(t *testing.T) {
 
 func skipLogAndMetricsTest() bool {
 	// Firecracker logging behavior has changed after
-	// https://github.com/firecracker-microvm/firecracker/pull/4047
+	// https://github.com/verloop/firecracker/pull/4047
 	// This includes default log level being changed from WARN to INFO
 	// TODO: Update this test once firecracker version is upgraded to >v1.5.0
 	version, err := getFirecrackerVersion()
@@ -1271,7 +1271,7 @@ func TestCaptureFifoToFile_nonblock(t *testing.T) {
 	// captureFifoToFile. This is due to the fifo being opened with O_NONBLOCK,
 	// which causes io.Copy to exit immediately with no error.
 	//
-	// https://github.com/firecracker-microvm/firecracker-go-sdk/issues/156
+	// https://github.com/verloop/firecracker-go-sdk/issues/156
 	time.Sleep(250 * time.Millisecond)
 
 	f, err := os.OpenFile(fifoPath, os.O_RDWR, 0600)

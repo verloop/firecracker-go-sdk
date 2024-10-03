@@ -29,8 +29,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/sys/unix"
 
-	models "github.com/firecracker-microvm/firecracker-go-sdk/client/models"
-	"github.com/firecracker-microvm/firecracker-go-sdk/cni/vmconf"
+	models "github.com/verloop/firecracker-go-sdk/client/models"
+	"github.com/verloop/firecracker-go-sdk/cni/vmconf"
 )
 
 const (

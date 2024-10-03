@@ -3,7 +3,7 @@ module main
 go 1.21
 
 require (
-	github.com/firecracker-microvm/firecracker-go-sdk v1.0.0
+	github.com/verloop/firecracker-go-sdk v1.0.0
 	golang.org/x/crypto v0.26.0
 	golang.org/x/sys v0.24.0
 )
@@ -39,4 +39,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/firecracker-microvm/firecracker-go-sdk => ../../..
+replace github.com/verloop/firecracker-go-sdk => ../../..

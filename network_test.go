@@ -25,11 +25,11 @@ import (
 	"time"
 
 	"github.com/containernetworking/cni/libcni"
-	"github.com/firecracker-microvm/firecracker-go-sdk/client/models"
-	"github.com/firecracker-microvm/firecracker-go-sdk/fctesting"
 	"github.com/go-ping/ping"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/verloop/firecracker-go-sdk/client/models"
+	"github.com/verloop/firecracker-go-sdk/fctesting"
 )
 
 var (
@@ -354,7 +354,7 @@ func testNetworkMachineCNI(t *testing.T, useConfFile bool) {
 
 			// Having an error is fine, since StopVM() kills a Firecracker process.
 			// Shutdown() uses SendCtrAltDel action, which doesn't work with the kernel we are using here.
-			// https://github.com/firecracker-microvm/firecracker/issues/1095
+			// https://github.com/verloop/firecracker/issues/1095
 			assert.NotEqual(t, m.Wait(waitCtx), context.DeadlineExceeded, "failed waiting for machine stop")
 			waitCancel()
 
